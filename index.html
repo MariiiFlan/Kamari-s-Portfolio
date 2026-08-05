@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kamari Flanagan — The Feature</title>
+<meta name="description" content="Kamari Flanagan — software engineer & site builder. A three-part feature reel of live sites.">
+<meta name="theme-color" content="#0a0a0a">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Kamari Flanagan — The Feature">
+<meta property="og:description" content="A three-part feature reel. Software engineer & site builder. Booking for 2026.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     THE FEATURE — Kamari Flanagan portfolio
+     Colors / type are the single source of truth here.
+     ============================================================ */
+  :root{
+    --bg:#0a0a0a;
+    --ink:#f4f4f2;
+    --ink-2:#9a9a9a;
+    --ink-3:#7a7a7a;
+    --ink-4:#4a4a4a;
+    --line:#1c1c1c;
+    --line-2:#262626;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+    --disp:'Space Grotesk',Helvetica,Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:var(--disp);
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  a{color:var(--ink); text-decoration:none}
+  a:hover{color:#fff}
+  ::-webkit-scrollbar{width:0;height:0}
+  ::selection{background:#f4f4f2; color:#0a0a0a}
+
+  /* Custom cursor — only on fine-pointer (desktop) devices */
+  #cursor{display:none}
+  @media (hover:hover) and (pointer:fine){
+    html.cursor-on, html.cursor-on *{cursor:none !important}
+    #cursor{
+      display:block; position:fixed; z-index:80; top:0; left:0;
+      width:16px; height:16px; margin:-8px 0 0 -8px; border-radius:50%;
+      background:var(--ink); mix-blend-mode:difference; pointer-events:none;
+      transition:width .25s cubic-bezier(.2,.8,.2,1), height .25s cubic-bezier(.2,.8,.2,1), margin .25s cubic-bezier(.2,.8,.2,1);
+    }
+    #cursor.big{width:64px; height:64px; margin:-32px 0 0 -32px}
+  }
+
+  /* keyframes */
+  @keyframes fadeUp{from{transform:translateY(18px);opacity:0}to{transform:translateY(0);opacity:1}}
+  @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+  @keyframes gooExit{to{transform:translateY(-105%)}}
+  @keyframes grain{0%,100%{transform:translate(0,0)}20%{transform:translate(-2%,1%)}40%{transform:translate(1%,-2%)}60%{transform:translate(-1%,2%)}80%{transform:translate(2%,1%)}}
+  @keyframes flick{0%,100%{opacity:.96}45%{opacity:1}62%{opacity:.9}78%{opacity:.99}}
+  @keyframes titleUp{from{transform:translateY(24px);opacity:0;letter-spacing:.24em}to{transform:translateY(0);opacity:1;letter-spacing:.06em}}
+  @keyframes sweep{from{transform:translateY(-120%)}to{transform:translateY(320%)}}
+
+  .grain{position:absolute; inset:-30%; pointer-events:none; opacity:.16; mix-blend-mode:overlay;
+    background-image:radial-gradient(#fff 1px,transparent 1px),radial-gradient(#fff 1px,transparent 1px);
+    background-size:5px 5px,7px 7px; background-position:0 0,3px 4px; animation:grain .5s steps(2) infinite}
+
+  /* ---------- intro title card ---------- */
+  #intro{position:fixed; inset:0; z-index:60; background:#000;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:26px;
+    animation:gooExit 1s cubic-bezier(.7,0,.2,1) 2.4s forwards}
+  #intro .kicker{font-family:var(--mono); font-size:12px; letter-spacing:.4em; color:#5c5c5c}
+  #intro .big{font-family:var(--disp); font-size:clamp(46px,8.2vw,120px); font-weight:500; letter-spacing:.06em; color:var(--ink);
+    animation:titleUp 1.2s cubic-bezier(.2,.8,.2,1) both, flick .35s steps(3) infinite}
+  #intro .rule{width:220px; height:1px; background:#3a3a3a}
+
+  /* ---------- top bar ---------- */
+  header{position:relative; z-index:5; display:flex; justify-content:space-between; align-items:center;
+    padding:0 5vw; height:0}
+  .toprow{position:relative; display:flex; justify-content:space-between; width:100%;
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.24em; text-transform:uppercase; color:var(--ink-2)}
+  .nav{display:flex; gap:26px}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative; min-height:100vh; box-sizing:border-box; display:flex; flex-direction:column;
+    justify-content:space-between; padding:44px 5vw 52px; overflow:hidden}
+  .hero .glow{position:absolute; inset:0; pointer-events:none;
+    background:radial-gradient(70% 55% at 50% 38%, rgba(255,255,255,.07), transparent 72%)}
+  .hero .center{position:relative; text-align:center; animation:flick .5s steps(3) infinite}
+  .hero .lede{font-family:var(--mono); font-size:12px; letter-spacing:.4em; color:var(--ink-3);
+    animation:fadeUp .7s cubic-bezier(.2,.8,.2,1) 3.2s both}
+  .hero h1{font-family:var(--disp); font-size:clamp(58px,11.6vw,170px); font-weight:500;
+    letter-spacing:-.05em; line-height:.94; color:var(--ink); margin-top:16px;
+    animation:titleUp 1s cubic-bezier(.2,.8,.2,1) 3.35s both}
+  .hero .roles{display:flex; justify-content:center; flex-wrap:wrap; gap:14px 30px; margin-top:28px;
+    font-family:var(--mono); font-size:12px; letter-spacing:.26em; text-transform:uppercase; color:var(--ink-2);
+    animation:fadeUp .8s cubic-bezier(.2,.8,.2,1) 3.6s both}
+  .hero .roles .slash{color:var(--ink-4)}
+  .hero .footrow{position:relative; display:flex; justify-content:space-between; align-items:flex-end; gap:16px;
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-3);
+    animation:fadeUp .8s cubic-bezier(.2,.8,.2,1) 3.8s both}
+  .hero .rec{display:flex; align-items:center; gap:10px}
+  .hero .dot{width:7px;height:7px;border-radius:50%;background:var(--ink);animation:blink 1.6s steps(1) infinite}
+
+  /* ---------- scenes ---------- */
+  .scene{position:relative; padding:64px 5vw 72px; border-top:1px solid var(--line)}
+  .scene .cap{display:flex; justify-content:space-between; align-items:flex-end; gap:16px; margin-bottom:22px;
+    animation:fadeUp .8s cubic-bezier(.2,.8,.2,1) both}
+  .scene .cap .l{display:flex; align-items:baseline; gap:22px; flex-wrap:wrap}
+  .scene .no{font-family:var(--mono); font-size:12px; letter-spacing:.3em; color:var(--ink-3)}
+  .scene .name{font-family:var(--disp); font-size:clamp(28px,4.6vw,66px); font-weight:500; letter-spacing:-.04em; color:var(--ink); line-height:1}
+  .scene .meta{font-family:var(--mono); font-size:11.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-2); text-align:right; white-space:nowrap}
+  .kreveal{opacity:0; transform:translateY(20px)}
+  .kreveal.in{opacity:1; transform:none; transition:opacity .9s cubic-bezier(.2,.8,.2,1), transform .9s cubic-bezier(.2,.8,.2,1)}
+
+  .panel{position:relative; display:block; overflow:hidden; background:#0a0a0a; border:1px solid var(--line-2);
+    transition:transform .55s cubic-bezier(.2,.8,.2,1), border-color .4s}
+  .panel:focus-visible{outline:2px solid #f4f4f2; outline-offset:3px}
+  @media (hover:hover) and (pointer:fine){ .panel:hover{transform:scale(1.008); border-color:#5a5a5a} }
+  .screen{position:relative; height:clamp(280px,44vw,560px); overflow:hidden}
+  .slate{position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono); font-size:11px; letter-spacing:.2em; color:var(--ink-4);
+    background:repeating-linear-gradient(115deg,#141414 0 12px,#0f0f0f 12px 24px); text-align:center; padding:0 20px}
+  .screen iframe{position:absolute; top:0; left:0; width:400%; height:400%; transform:scale(.25);
+    transform-origin:top left; border:0; pointer-events:none}
+  .vig{position:absolute; inset:0; pointer-events:none;
+    background:radial-gradient(75% 60% at 50% 45%, transparent 40%, rgba(0,0,0,.55) 100%)}
+  .sweep{position:absolute; left:0; right:0; top:0; height:36%; pointer-events:none;
+    background:linear-gradient(rgba(255,255,255,.055), transparent); animation:sweep 7s linear infinite}
+  .bar{position:absolute; left:0; right:0; height:74px; background:#000; pointer-events:none;
+    transition:transform .7s cubic-bezier(.7,0,.2,1)}
+  .bar.top{top:0; transform-origin:top}
+  .bar.bot{bottom:0; transform-origin:bottom}
+  @media (hover:hover) and (pointer:fine){
+    .panel:hover .bar.top{transform:translateY(-100%)}
+    .panel:hover .bar.bot{transform:translateY(100%)}
+  }
+  .panel.rolling .bar.top{transform:translateY(-100%)}
+  .panel.rolling .bar.bot{transform:translateY(100%)}
+  .play{position:absolute; left:26px; bottom:24px; z-index:3; display:flex; align-items:center; gap:14px;
+    font-family:var(--mono); font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:#e8e8e6}
+  .play .tri{width:0;height:0;border-left:11px solid #e8e8e6;border-top:7px solid transparent;border-bottom:7px solid transparent}
+  .stack{position:absolute; right:26px; bottom:24px; z-index:3;
+    font-family:var(--mono); font-size:11px; letter-spacing:.22em; color:var(--ink-2)}
+
+  /* ---------- credits ---------- */
+  .credits{position:relative; padding:100px 5vw 90px; border-top:1px solid var(--line); overflow:hidden}
+  .credits .inner{position:relative; text-align:center}
+  .credits .head{font-family:var(--mono); font-size:12px; letter-spacing:.4em; color:var(--ink-3)}
+  .roll{display:grid; grid-template-columns:1fr 1fr; gap:12px 40px; max-width:820px; margin:34px auto 0;
+    font-family:var(--mono); font-size:12.5px; letter-spacing:.14em; text-transform:uppercase}
+  .roll .k{text-align:right; color:var(--ink-3)}
+  .roll .v{text-align:left; color:var(--ink)}
+  .roll .v a{border-bottom:1px solid #333}
+  .email{display:inline-block; font-family:var(--disp); font-size:clamp(24px,4.3vw,62px); font-weight:500;
+    letter-spacing:-.035em; color:var(--ink); margin-top:52px; word-break:break-word}
+  .credits .tail{font-family:var(--mono); font-size:11.5px; letter-spacing:.26em; text-transform:uppercase; color:#6e6e6e; margin-top:26px}
+  .credits .kit{display:flex; justify-content:center; gap:26px; flex-wrap:wrap; margin-top:30px;
+    font-family:var(--mono); font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--ink-2)}
+  .credits .kit a{border-bottom:1px solid #333; padding-bottom:2px}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:720px){
+    .scene .cap{flex-direction:column; align-items:flex-start; gap:8px}
+    .scene .meta{text-align:left; white-space:normal}
+    .roll{grid-template-columns:1fr; gap:4px 0; text-align:center}
+    .roll .k,.roll .v{text-align:center}
+    .roll .k{color:var(--ink-3); margin-top:14px}
+    .hero .footrow{flex-direction:column; align-items:flex-start; gap:14px}
+    .play{left:16px; bottom:16px}
+    .stack{display:none}
+  }
+
+  /* ---------- reduced motion ---------- */
+  @media (prefers-reduced-motion:reduce){
+    *{animation-duration:.001s !important; animation-delay:0s !important; transition-duration:.05s !important}
+    #intro{display:none}
+    .kreveal{opacity:1; transform:none}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<div id="cursor" aria-hidden="true"></div>
+
+<!-- INTRO TITLE CARD -->
+<div id="intro" aria-hidden="true">
+  <div class="kicker">A KAMARI FLANAGAN PRODUCTION</div>
+  <div class="big">THREE SITES</div>
+  <div class="rule"></div>
+  <div class="kicker">NOW SHOWING · 2026</div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="grain"></div>
+  <div class="glow"></div>
+
+  <header>
+    <div class="toprow">
+      <span style="color:var(--ink)" data-mag>Kamari Flanagan</span>
+      <nav class="nav" aria-label="Primary">
+        <a href="#scenes" data-mag>Scenes</a>
+        <a href="#credits" data-mag>Credits</a>
+        <a href="mailto:officialkamariflanagan@gmail.com" data-mag>Booking</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="center">
+    <div class="lede">A THREE-PART FEATURE · WRITTEN, DESIGNED &amp; BUILT BY</div>
+    <h1>KAMARI<br>FLANAGAN</h1>
+    <div class="roles">
+      <span>Software engineer</span><span class="slash">/</span>
+      <span>Site builder</span><span class="slash">/</span>
+      <span>Freelance open</span>
+    </div>
+  </div>
+
+  <div class="footrow" id="scenes">
+    <span>Reel 01 — three live sites</span>
+    <span class="rec"><span class="dot"></span>Scroll to roll the film</span>
+  </div>
+</section>
+
+<!-- SCENES render here -->
+<main id="reel"></main>
+
+<!-- CREDITS -->
+<section class="credits" id="credits">
+  <div class="grain"></div>
+  <div class="inner kreveal">
+    <div class="head">END CREDITS</div>
+    <div class="roll">
+      <span class="k">Design &amp; build</span><span class="v">Kamari Flanagan</span>
+      <span class="k">Certification</span><span class="v"><a href="https://cp.certmetrics.com/amazon/en/public/verify/credential" target="_blank" rel="noopener">AWS Certified Cloud Practitioner · 2026—2029</a></span>
+      <span class="k">In production</span><span class="v">CompTIA Security+</span>
+      <span class="k">Studio</span><span class="v">Invincible Incorporated</span>
+      <span class="k">Now playing</span><span class="v">B.S. Software Engineering · NAU</span>
+      <span class="k">On location</span><span class="v">Wildomar, CA / Flagstaff, AZ</span>
+    </div>
+    <a class="email" href="mailto:officialkamariflanagan@gmail.com" data-mag>officialkamariflanagan@gmail.com</a>
+    <div class="tail">757-386-5116 · Booking for 2026 · Fin.</div>
+    <div class="kit">
+      <a href="Kamari-Flanagan-Resume.pdf" target="_blank" rel="noopener" data-mag>Résumé (PDF)</a>
+      <a href="AWS-Cloud-Practitioner.pdf" target="_blank" rel="noopener" data-mag>AWS Certificate</a>
+      <a href="https://github.com/mariiiflan" target="_blank" rel="noopener" data-mag>GitHub</a>
+    </div>
+  </div>
+</section>
+
+<script>
+/* ============================================================
+   SCENES — single source of truth.
+   Add a project = add one object here. Order sets SCENE 01, 02, ...
+   frame:false  -> shows the film-slate placeholder only (no iframe).
+   ============================================================ */
+const SCENES = [
+  {
+    name: "invincibleinc.net",
+    href: "https://invincibleinc.net",
+    meta: "Studio site · 226K+ downloads · 2023",
+    stack: "Java · NeoForge · Mixin",
+    frame: true
+  },
+  {
+    name: "I Served Transportation",
+    href: "https://mariiiflan.github.io/I-SERVED-TRANSPORTATION/",
+    meta: "Service site · live · 2026",
+    stack: "HTML · CSS · JS · Pages",
+    frame: true
+  },
+  {
+    name: "AVEIR",
+    href: "https://mariiiflan.github.io/AVEIR-SITE/desktop/",
+    meta: "Brand site · desktop-first · 2026",
+    stack: "Motion · layout · deploy",
+    frame: true
+  }
+];
+
+/* ---- render scenes ---- */
+(function renderScenes(){
+  const reel = document.getElementById('reel');
+  const isTouch = !window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  SCENES.forEach((s, i) => {
+    const no = String(i + 1).padStart(2, '0');
+    const slateLabel = `SCENE ${no} — ${s.name.toUpperCase()}`;
+    const playLabel = isTouch ? 'OPEN THE SITE' : 'PLAY THE SITE';
+    // iframe mounts only on desktop, only when scrolled into view (data-src)
+    const frameHTML = (s.frame && !isTouch)
+      ? `<iframe data-src="${s.href}" loading="lazy" scrolling="no" tabindex="-1" title="${s.name} preview"></iframe>`
+      : '';
+    const sec = document.createElement('section');
+    sec.className = 'scene';
+    sec.innerHTML = `
+      <div class="cap kreveal">
+        <div class="l"><span class="no">SCENE ${no}</span><span class="name">${s.name}</span></div>
+        <span class="meta">${s.meta}</span>
+      </div>
+      <a class="panel" href="${s.href}" target="_blank" rel="noopener" aria-label="Open ${s.name} in a new tab">
+        <div class="screen">
+          <div class="slate">${slateLabel}</div>
+          ${frameHTML}
+          <div class="vig"></div>
+          <div class="grain"></div>
+          <div class="sweep"></div>
+          <div class="bar top"></div>
+          <div class="bar bot"></div>
+          <div class="play"><span class="tri"></span>${playLabel}</div>
+          <div class="stack">${s.stack}</div>
+        </div>
+      </a>`;
+    reel.appendChild(sec);
+  });
+})();
+
+/* ---- scroll reveal + lazy-mount iframes + auto-roll on touch ---- */
+(function reveals(){
+  const reveal = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); reveal.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.kreveal').forEach(el => reveal.observe(el));
+
+  const isTouch = !window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  const panels = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const panel = e.target;
+      const frame = panel.querySelector('iframe[data-src]');
+      if (frame){ frame.src = frame.dataset.src; frame.removeAttribute('data-src'); }
+      if (isTouch) panel.classList.add('rolling'); // retract letterbox bars on mobile
+      panels.unobserve(panel);
+    });
+  }, { threshold: 0.35 });
+  document.querySelectorAll('.panel').forEach(p => panels.observe(p));
+})();
+
+/* ---- custom cursor + magnetic links (desktop, non-reduced-motion only) ---- */
+(function cursor(){
+  const fine = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  const reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if (!fine || reduce) return;
+  document.documentElement.classList.add('cursor-on');
+
+  const cur = document.getElementById('cursor');
+  let tx = 0, ty = 0, cx = 0, cy = 0;
+  window.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
+  (function loop(){
+    cx += (tx - cx) * 0.2; cy += (ty - cy) * 0.2;
+    cur.style.transform = `translate(${cx}px, ${cy}px)`;
+    requestAnimationFrame(loop);
+  })();
+
+  // grow over interactive targets
+  document.querySelectorAll('a, .panel').forEach(el => {
+    el.addEventListener('mouseenter', () => cur.classList.add('big'));
+    el.addEventListener('mouseleave', () => cur.classList.remove('big'));
+  });
+
+  // magnetic pull on tagged links
+  document.querySelectorAll('[data-mag]').forEach(el => {
+    el.style.display = el.style.display || 'inline-block';
+    el.style.transition = 'transform .3s cubic-bezier(.2,.8,.2,1)';
+    el.addEventListener('mousemove', e => {
+      const r = el.getBoundingClientRect();
+      const mx = e.clientX - (r.left + r.width / 2);
+      const my = e.clientY - (r.top + r.height / 2);
+      el.style.transform = `translate(${mx * 0.25}px, ${my * 0.35}px)`;
+    });
+    el.addEventListener('mouseleave', () => { el.style.transform = 'translate(0,0)'; });
+  });
+})();
+</script>
+</body>
+</html>
