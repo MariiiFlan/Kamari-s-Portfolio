@@ -15,10 +15,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
-  /* ===========================================================
-     THE FEATURE — Kamari Flanagan
-     :root = single source of truth for color + type.
-     =========================================================== */
   :root{
     --bg:#0a0a0a; --ink:#f4f4f2; --ink-2:#9a9a9a; --ink-3:#7a7a7a; --ink-4:#4a4a4a;
     --line:#1c1c1c; --line-2:#262626;
@@ -35,22 +31,20 @@
   ::-webkit-scrollbar{width:0;height:0}
   ::selection{background:#f4f4f2; color:#0a0a0a}
 
-  /* ---------- camera focus-reticle cursor (desktop only) ---------- */
+  /* ---------- camera focus-reticle cursor (toggled by JS via .cursor-on) ---------- */
   #reticle{display:none}
-  @media (hover:hover) and (pointer:fine){
-    html.cursor-on, html.cursor-on *{cursor:none !important}
-    #reticle{position:fixed; z-index:90; top:0; left:0; width:34px; height:34px;
-      margin:-17px 0 0 -17px; pointer-events:none; mix-blend-mode:difference; display:block;
-      transition:width .28s cubic-bezier(.2,.8,.2,1), height .28s cubic-bezier(.2,.8,.2,1), margin .28s cubic-bezier(.2,.8,.2,1)}
-    #reticle .c{position:absolute; width:8px; height:8px; border:1.5px solid #f4f4f2}
-    #reticle .tl{top:0;left:0;border-right:0;border-bottom:0}
-    #reticle .tr{top:0;right:0;border-left:0;border-bottom:0}
-    #reticle .bl{bottom:0;left:0;border-right:0;border-top:0}
-    #reticle .br{bottom:0;right:0;border-left:0;border-top:0}
-    #reticle .dot{position:absolute; top:50%; left:50%; width:2px; height:2px; margin:-1px 0 0 -1px; background:#f4f4f2}
-    #reticle.big{width:76px; height:76px; margin:-38px 0 0 -38px}
-    #reticle.big .dot{width:0;height:0}
-  }
+  html.cursor-on, html.cursor-on *{cursor:none !important}
+  html.cursor-on #reticle{position:fixed; z-index:90; top:0; left:0; width:34px; height:34px;
+    margin:-17px 0 0 -17px; pointer-events:none; mix-blend-mode:difference; display:block;
+    transition:width .28s cubic-bezier(.2,.8,.2,1), height .28s cubic-bezier(.2,.8,.2,1), margin .28s cubic-bezier(.2,.8,.2,1)}
+  #reticle .c{position:absolute; width:8px; height:8px; border:1.5px solid #f4f4f2}
+  #reticle .tl{top:0;left:0;border-right:0;border-bottom:0}
+  #reticle .tr{top:0;right:0;border-left:0;border-bottom:0}
+  #reticle .bl{bottom:0;left:0;border-right:0;border-top:0}
+  #reticle .br{bottom:0;right:0;border-left:0;border-top:0}
+  #reticle .dot{position:absolute; top:50%; left:50%; width:2px; height:2px; margin:-1px 0 0 -1px; background:#f4f4f2}
+  #reticle.big{width:76px; height:76px; margin:-38px 0 0 -38px}
+  #reticle.big .dot{width:0;height:0}
 
   /* ---------- keyframes ---------- */
   @keyframes fadeUp{from{transform:translateY(18px);opacity:0}to{transform:translateY(0);opacity:1}}
@@ -68,20 +62,14 @@
     background-image:radial-gradient(#fff 1px,transparent 1px),radial-gradient(#fff 1px,transparent 1px);
     background-size:5px 5px,7px 7px; background-position:0 0,3px 4px; animation:grain .5s steps(2) infinite}
 
-  /* ===========================================================
-     LEADER / BOOT — film countdown, then click to lift
-     =========================================================== */
+  /* ---------- LEADER / BOOT ---------- */
   #leader{position:fixed; inset:0; z-index:100; background:#000; overflow:hidden;
     display:flex; align-items:center; justify-content:center;
-    animation:projFlick 3.6s steps(1) infinite;
-    transition:transform 1.05s cubic-bezier(.76,0,.24,1)}
+    animation:projFlick 3.6s steps(1) infinite; transition:transform 1.05s cubic-bezier(.76,0,.24,1)}
   #leader.lift{transform:translateY(-100%)}
   .sprockets{position:absolute; top:-96px; bottom:-96px; width:46px; opacity:.5;
-    background:
-      radial-gradient(circle at 50% 24px, #0000 7px, #101010 7px 8px, #0000 9px),
-      linear-gradient(#000,#000);
-    background-size:46px 96px, 100% 100%; background-repeat:repeat-y, no-repeat;
-    animation:filmRoll .55s linear infinite}
+    background:radial-gradient(circle at 50% 24px, #0000 7px, #101010 7px 8px, #0000 9px), linear-gradient(#000,#000);
+    background-size:46px 96px, 100% 100%; background-repeat:repeat-y, no-repeat; animation:filmRoll .55s linear infinite}
   .sprockets.left{left:0; border-right:1px solid #141414}
   .sprockets.right{right:0; border-left:1px solid #141414}
   .leader-core{position:relative; display:flex; flex-direction:column; align-items:center; gap:30px}
@@ -94,8 +82,7 @@
   .dial::before{left:50%; top:0; bottom:0; width:1px}
   .dial::after{top:50%; left:0; right:0; height:1px}
   .hand{position:absolute; inset:0; border-radius:50%;
-    background:conic-gradient(rgba(244,244,242,.14) 0deg, transparent 92deg);
-    animation:sweepHand .8s linear infinite}
+    background:conic-gradient(rgba(244,244,242,.14) 0deg, transparent 92deg); animation:sweepHand .8s linear infinite}
   #count{position:relative; display:flex; align-items:center; justify-content:center; height:100%;
     font-family:var(--disp); font-size:min(30vw,190px); font-weight:500; line-height:1; color:var(--ink)}
   #count span{display:inline-block; animation:countPop .8s cubic-bezier(.2,.8,.2,1)}
@@ -105,23 +92,18 @@
     color:var(--ink); animation:pulse 1.6s ease-in-out infinite}
   #cta .sub{font-family:var(--mono); font-size:11px; letter-spacing:.32em; color:#5c5c5c}
 
-  /* ===========================================================
-     RUNTIME HUD
-     =========================================================== */
+  /* ---------- RUNTIME HUD ---------- */
   #hud{position:fixed; left:22px; bottom:20px; z-index:70; display:flex; align-items:center; gap:9px;
     font-family:var(--mono); font-size:11px; letter-spacing:.2em; color:var(--ink-2);
     opacity:0; transition:opacity .6s ease .2s; pointer-events:none}
   #hud.show{opacity:1}
   #hud .rec{width:7px; height:7px; border-radius:50%; background:#e0564a; animation:blink 1.6s steps(1) infinite}
 
-  /* ===========================================================
-     HERO — entrance plays only after the screen lifts (.rolled)
-     =========================================================== */
+  /* ---------- HERO ---------- */
   header{position:relative; z-index:5; height:0}
   .toprow{position:relative; display:flex; justify-content:space-between; align-items:center; width:100%;
     font-family:var(--mono); font-size:11.5px; letter-spacing:.24em; text-transform:uppercase; color:var(--ink-2)}
   .nav{display:flex; gap:26px}
-
   .hero{position:relative; min-height:100vh; box-sizing:border-box; display:flex; flex-direction:column;
     justify-content:space-between; padding:44px 5vw 52px; overflow:hidden}
   .hero .glow{position:absolute; inset:0; pointer-events:none;
@@ -158,7 +140,7 @@
   .panel{position:relative; display:block; overflow:hidden; background:#0a0a0a; border:1px solid var(--line-2);
     transition:transform .55s cubic-bezier(.2,.8,.2,1), border-color .4s}
   .panel:focus-visible{outline:2px solid #f4f4f2; outline-offset:3px}
-  @media (hover:hover) and (pointer:fine){ .panel:hover{transform:scale(1.008); border-color:#5a5a5a} }
+  .cursor-on .panel:hover{transform:scale(1.008); border-color:#5a5a5a}
   .screen{position:relative; height:clamp(280px,44vw,560px); overflow:hidden}
   .slate{position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
     font-family:var(--mono); font-size:11px; letter-spacing:.2em; color:var(--ink-4);
@@ -171,10 +153,8 @@
   .bar{position:absolute; left:0; right:0; height:74px; background:#000; pointer-events:none; transition:transform .7s cubic-bezier(.7,0,.2,1)}
   .bar.top{top:0; transform-origin:top}
   .bar.bot{bottom:0; transform-origin:bottom}
-  @media (hover:hover) and (pointer:fine){
-    .panel:hover .bar.top{transform:translateY(-100%)}
-    .panel:hover .bar.bot{transform:translateY(100%)}
-  }
+  .cursor-on .panel:hover .bar.top{transform:translateY(-100%)}
+  .cursor-on .panel:hover .bar.bot{transform:translateY(100%)}
   .panel.rolling .bar.top{transform:translateY(-100%)}
   .panel.rolling .bar.bot{transform:translateY(100%)}
   .play{position:absolute; left:26px; bottom:24px; z-index:3; display:flex; align-items:center; gap:14px;
@@ -198,7 +178,6 @@
     font-family:var(--mono); font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--ink-2)}
   .credits .kit a{border-bottom:1px solid #333; padding-bottom:2px}
 
-  /* ---------- responsive ---------- */
   @media (max-width:720px){
     .scene .cap{flex-direction:column; align-items:flex-start; gap:8px}
     .scene .meta{text-align:left; white-space:normal}
@@ -210,7 +189,6 @@
     .play{left:16px; bottom:16px}
     .stack{display:none}
   }
-
   @media (prefers-reduced-motion:reduce){
     *{animation-duration:.001s !important; animation-delay:0s !important}
     .kreveal{opacity:1; transform:none}
@@ -223,7 +201,6 @@
 
 <div id="reticle" aria-hidden="true"><i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i><i class="dot"></i></div>
 
-<!-- ===== LEADER / BOOT ===== -->
 <div id="leader" role="button" tabindex="0" aria-label="Click anywhere to roll the film and enter the site">
   <div class="sprockets left" aria-hidden="true"></div>
   <div class="sprockets right" aria-hidden="true"></div>
@@ -239,10 +216,8 @@
   <div class="grain"></div>
 </div>
 
-<!-- ===== RUNTIME HUD ===== -->
 <div id="hud" aria-hidden="true"><span class="rec"></span><span>RUNTIME</span><span id="clock">00:00:00</span></div>
 
-<!-- ===== HERO ===== -->
 <section class="hero" id="top">
   <div class="grain"></div>
   <div class="glow"></div>
@@ -272,7 +247,6 @@
 
 <main id="reel"></main>
 
-<!-- ===== CREDITS ===== -->
 <section class="credits" id="credits">
   <div class="grain"></div>
   <div class="inner kreveal">
@@ -295,27 +269,28 @@
 </section>
 
 <script>
-/* =====================================================================
-   SCENES — single source of truth. Add a project = add one object.
-   frame:false -> film-slate only (no live iframe).
-   ===================================================================== */
+/* SCENES — single source of truth. frame:false = film-slate only. */
 const SCENES = [
   { name:"invincibleinc.net", href:"https://invincibleinc.net", meta:"Studio site · 226K+ downloads · 2023", stack:"Java · NeoForge · Mixin", frame:true },
   { name:"I Served Transportation", href:"https://mariiiflan.github.io/I-SERVED-TRANSPORTATION/", meta:"Service site · live · 2026", stack:"HTML · CSS · JS · Pages", frame:true },
   { name:"AVEIR", href:"https://mariiiflan.github.io/AVEIR-SITE/desktop/", meta:"Brand site · desktop-first · 2026", stack:"Motion · layout · deploy", frame:true }
 ];
 
-const isTouch = !window.matchMedia('(hover:hover) and (pointer:fine)').matches;
-const reduce  = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+/* Layout decisions are WIDTH-based (robust on touchscreen laptops).
+   Cursor uses any-pointer so a mouse on a touchscreen still gets it. */
+const narrow      = window.matchMedia('(max-width:720px)').matches;
+const finePointer = window.matchMedia('(any-hover:hover) and (any-pointer:fine)').matches;
+const reduce      = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+const cursorOn    = finePointer && !reduce;
 
 /* ---- render scenes ---- */
 (function(){
   const reel = document.getElementById('reel');
   SCENES.forEach((s,i)=>{
     const no = String(i+1).padStart(2,'0');
-    const play = isTouch ? 'OPEN THE SITE' : 'PLAY THE SITE';
-    const frame = (s.frame && !isTouch)
-      ? `<iframe data-src="${s.href}" loading="lazy" scrolling="no" tabindex="-1" title="${s.name} preview"></iframe>` : '';
+    const play = narrow ? 'OPEN THE SITE' : 'PLAY THE SITE';
+    const frame = (s.frame && !narrow)
+      ? `<iframe data-src="${s.href}" loading="lazy" scrolling="no" tabindex="-1" referrerpolicy="no-referrer" title="${s.name} preview"></iframe>` : '';
     const sec = document.createElement('section');
     sec.className = 'scene';
     if (i===0) sec.id = 'scene1';
@@ -338,78 +313,58 @@ const reduce  = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
   });
 })();
 
-/* ---- reveal on scroll + lazy-mount iframes + auto-roll bars on touch ---- */
+/* ---- reveal + lazy-mount iframes + auto-roll bars where there's no hover ---- */
 (function(){
   const rev = new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');rev.unobserve(e.target);}})},{threshold:.15});
   document.querySelectorAll('.kreveal').forEach(el=>rev.observe(el));
   const pan = new IntersectionObserver((es)=>{es.forEach(e=>{
     if(!e.isIntersecting) return;
     const f=e.target.querySelector('iframe[data-src]'); if(f){f.src=f.dataset.src;f.removeAttribute('data-src');}
-    if(isTouch) e.target.classList.add('rolling');
+    if(!cursorOn) e.target.classList.add('rolling'); // no hover to reveal -> auto-roll the letterbox
     pan.unobserve(e.target);
-  })},{threshold:.35});
+  })},{threshold:.25, rootMargin:'0px 0px 200px 0px'});
   document.querySelectorAll('.panel').forEach(p=>pan.observe(p));
 })();
 
-/* =====================================================================
-   RUNTIME TIMER — counts from page load; shown after the film rolls.
-   ===================================================================== */
+/* ---- runtime timer ---- */
 (function(){
   const t0 = Date.now(), el = document.getElementById('clock');
   const p = n => String(n).padStart(2,'0');
-  setInterval(()=>{
-    const s = Math.floor((Date.now()-t0)/1000);
-    el.textContent = p(Math.floor(s/3600))+':'+p(Math.floor(s%3600/60))+':'+p(s%60);
-  },1000);
+  setInterval(()=>{ const s=Math.floor((Date.now()-t0)/1000);
+    el.textContent = p(Math.floor(s/3600))+':'+p(Math.floor(s%3600/60))+':'+p(s%60); },1000);
 })();
 
-/* =====================================================================
-   LEADER — countdown 4->1, then arm; click / key lifts the screen.
-   ===================================================================== */
+/* ---- leader: countdown -> arm -> click/key lifts the screen ---- */
 (function(){
-  const leader = document.getElementById('leader');
-  const count  = document.getElementById('count');
-  const cta    = document.getElementById('cta');
-  const hud    = document.getElementById('hud');
-  let armed = false, lifted = false;
-
-  function arm(){ armed = true; count.style.display='none'; document.querySelector('.dial').style.opacity=.35; cta.classList.add('show'); }
+  const leader=document.getElementById('leader'), count=document.getElementById('count'),
+        cta=document.getElementById('cta'), hud=document.getElementById('hud');
+  let armed=false, lifted=false;
+  function arm(){ armed=true; count.style.display='none'; document.querySelector('.dial').style.opacity=.35; cta.classList.add('show'); }
   function roll(){
-    if(!armed || lifted) return; lifted = true;
+    if(!armed||lifted) return; lifted=true;
     leader.classList.add('lift');
     document.body.classList.remove('locked');
     document.body.classList.add('rolled');
     hud.classList.add('show');
-    leader.addEventListener('transitionend', ()=>{ leader.remove(); }, {once:true});
+    leader.addEventListener('transitionend', ()=>leader.remove(), {once:true});
   }
-
-  if (reduce){ arm(); }
-  else {
-    let n = 4;
-    const iv = setInterval(()=>{
-      n--;
-      if (n >= 1){ count.innerHTML = `<span>${n}</span>`; }
-      else { clearInterval(iv); arm(); }
-    }, 800);
-  }
-
+  if(reduce){ arm(); }
+  else{ let n=4; const iv=setInterval(()=>{ n--; if(n>=1){count.innerHTML=`<span>${n}</span>`;} else {clearInterval(iv);arm();} },800); }
   leader.addEventListener('click', roll);
   leader.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); roll(); }});
   leader.focus({preventScroll:true});
 })();
 
-/* =====================================================================
-   RETICLE cursor (desktop, motion-ok). No magnetic links — kept clean.
-   ===================================================================== */
+/* ---- reticle cursor (only when a fine pointer exists) ---- */
 (function(){
-  if (isTouch || reduce) return;
+  if(!cursorOn) return;
   document.documentElement.classList.add('cursor-on');
-  const r = document.getElementById('reticle');
+  const r=document.getElementById('reticle');
   let tx=0,ty=0,cx=0,cy=0;
   window.addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY;});
   (function loop(){ cx+=(tx-cx)*.22; cy+=(ty-cy)*.22; r.style.transform=`translate(${cx}px,${cy}px)`; requestAnimationFrame(loop); })();
-  document.addEventListener('mouseover', e=>{ if(e.target.closest('a,.panel,#leader')) r.classList.add('big'); });
-  document.addEventListener('mouseout',  e=>{ if(e.target.closest('a,.panel,#leader')) r.classList.remove('big'); });
+  document.addEventListener('mouseover',e=>{ if(e.target.closest('a,.panel,#leader')) r.classList.add('big'); });
+  document.addEventListener('mouseout', e=>{ if(e.target.closest('a,.panel,#leader')) r.classList.remove('big'); });
 })();
 </script>
 </body>
