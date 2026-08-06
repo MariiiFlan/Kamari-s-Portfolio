@@ -6,10 +6,8 @@
 <title>Kamari Flanagan — The Feature</title>
 <meta name="description" content="Kamari Flanagan — software engineer & site builder. A three-part feature reel of live sites.">
 <meta name="theme-color" content="#0a0a0a">
-
-<!-- Open Graph -->
 <meta property="og:title" content="Kamari Flanagan — The Feature">
-<meta property="og:description" content="A three-part feature reel. Software engineer & site builder. Booking for 2026.">
+<meta property="og:description" content="A three-part feature reel. Software engineer & site builder. Roll the film.">
 <meta property="og:type" content="website">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,101 +15,139 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
-  /* ============================================================
-     THE FEATURE — Kamari Flanagan portfolio
-     Colors / type are the single source of truth here.
-     ============================================================ */
+  /* ===========================================================
+     THE FEATURE — Kamari Flanagan
+     :root = single source of truth for color + type.
+     =========================================================== */
   :root{
-    --bg:#0a0a0a;
-    --ink:#f4f4f2;
-    --ink-2:#9a9a9a;
-    --ink-3:#7a7a7a;
-    --ink-4:#4a4a4a;
-    --line:#1c1c1c;
-    --line-2:#262626;
+    --bg:#0a0a0a; --ink:#f4f4f2; --ink-2:#9a9a9a; --ink-3:#7a7a7a; --ink-4:#4a4a4a;
+    --line:#1c1c1c; --line-2:#262626;
     --mono:'JetBrains Mono',ui-monospace,monospace;
     --disp:'Space Grotesk',Helvetica,Arial,sans-serif;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{
-    background:var(--bg); color:var(--ink);
-    font-family:var(--disp);
-    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
-    overflow-x:hidden;
-  }
+  body{background:var(--bg); color:var(--ink); font-family:var(--disp);
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; overflow-x:hidden}
+  body.locked{overflow:hidden; height:100vh}
   a{color:var(--ink); text-decoration:none}
   a:hover{color:#fff}
   ::-webkit-scrollbar{width:0;height:0}
   ::selection{background:#f4f4f2; color:#0a0a0a}
 
-  /* Custom cursor — only on fine-pointer (desktop) devices */
-  #cursor{display:none}
+  /* ---------- camera focus-reticle cursor (desktop only) ---------- */
+  #reticle{display:none}
   @media (hover:hover) and (pointer:fine){
     html.cursor-on, html.cursor-on *{cursor:none !important}
-    #cursor{
-      display:block; position:fixed; z-index:80; top:0; left:0;
-      width:16px; height:16px; margin:-8px 0 0 -8px; border-radius:50%;
-      background:var(--ink); mix-blend-mode:difference; pointer-events:none;
-      transition:width .25s cubic-bezier(.2,.8,.2,1), height .25s cubic-bezier(.2,.8,.2,1), margin .25s cubic-bezier(.2,.8,.2,1);
-    }
-    #cursor.big{width:64px; height:64px; margin:-32px 0 0 -32px}
+    #reticle{position:fixed; z-index:90; top:0; left:0; width:34px; height:34px;
+      margin:-17px 0 0 -17px; pointer-events:none; mix-blend-mode:difference; display:block;
+      transition:width .28s cubic-bezier(.2,.8,.2,1), height .28s cubic-bezier(.2,.8,.2,1), margin .28s cubic-bezier(.2,.8,.2,1)}
+    #reticle .c{position:absolute; width:8px; height:8px; border:1.5px solid #f4f4f2}
+    #reticle .tl{top:0;left:0;border-right:0;border-bottom:0}
+    #reticle .tr{top:0;right:0;border-left:0;border-bottom:0}
+    #reticle .bl{bottom:0;left:0;border-right:0;border-top:0}
+    #reticle .br{bottom:0;right:0;border-left:0;border-top:0}
+    #reticle .dot{position:absolute; top:50%; left:50%; width:2px; height:2px; margin:-1px 0 0 -1px; background:#f4f4f2}
+    #reticle.big{width:76px; height:76px; margin:-38px 0 0 -38px}
+    #reticle.big .dot{width:0;height:0}
   }
 
-  /* keyframes */
+  /* ---------- keyframes ---------- */
   @keyframes fadeUp{from{transform:translateY(18px);opacity:0}to{transform:translateY(0);opacity:1}}
   @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
-  @keyframes gooExit{to{transform:translateY(-105%)}}
   @keyframes grain{0%,100%{transform:translate(0,0)}20%{transform:translate(-2%,1%)}40%{transform:translate(1%,-2%)}60%{transform:translate(-1%,2%)}80%{transform:translate(2%,1%)}}
-  @keyframes flick{0%,100%{opacity:.96}45%{opacity:1}62%{opacity:.9}78%{opacity:.99}}
-  @keyframes titleUp{from{transform:translateY(24px);opacity:0;letter-spacing:.24em}to{transform:translateY(0);opacity:1;letter-spacing:.06em}}
   @keyframes sweep{from{transform:translateY(-120%)}to{transform:translateY(320%)}}
+  @keyframes sweepHand{to{transform:rotate(360deg)}}
+  @keyframes filmRoll{to{background-position:0 -96px}}
+  @keyframes countPop{0%{transform:scale(1.35);opacity:0}20%{opacity:1}100%{transform:scale(1)}}
+  @keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
+  @keyframes projFlick{0%,100%{opacity:1}47%{opacity:.94}61%{opacity:.99}73%{opacity:.9}}
+  @keyframes titleUp{from{transform:translateY(24px);opacity:0;letter-spacing:.02em}to{transform:translateY(0);opacity:1;letter-spacing:-.05em}}
 
   .grain{position:absolute; inset:-30%; pointer-events:none; opacity:.16; mix-blend-mode:overlay;
     background-image:radial-gradient(#fff 1px,transparent 1px),radial-gradient(#fff 1px,transparent 1px);
     background-size:5px 5px,7px 7px; background-position:0 0,3px 4px; animation:grain .5s steps(2) infinite}
 
-  /* ---------- intro title card ---------- */
-  #intro{position:fixed; inset:0; z-index:60; background:#000;
-    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:26px;
-    animation:gooExit 1s cubic-bezier(.7,0,.2,1) 2.4s forwards}
-  #intro .kicker{font-family:var(--mono); font-size:12px; letter-spacing:.4em; color:#5c5c5c}
-  #intro .big{font-family:var(--disp); font-size:clamp(46px,8.2vw,120px); font-weight:500; letter-spacing:.06em; color:var(--ink);
-    animation:titleUp 1.2s cubic-bezier(.2,.8,.2,1) both, flick .35s steps(3) infinite}
-  #intro .rule{width:220px; height:1px; background:#3a3a3a}
+  /* ===========================================================
+     LEADER / BOOT — film countdown, then click to lift
+     =========================================================== */
+  #leader{position:fixed; inset:0; z-index:100; background:#000; overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+    animation:projFlick 3.6s steps(1) infinite;
+    transition:transform 1.05s cubic-bezier(.76,0,.24,1)}
+  #leader.lift{transform:translateY(-100%)}
+  .sprockets{position:absolute; top:-96px; bottom:-96px; width:46px; opacity:.5;
+    background:
+      radial-gradient(circle at 50% 24px, #0000 7px, #101010 7px 8px, #0000 9px),
+      linear-gradient(#000,#000);
+    background-size:46px 96px, 100% 100%; background-repeat:repeat-y, no-repeat;
+    animation:filmRoll .55s linear infinite}
+  .sprockets.left{left:0; border-right:1px solid #141414}
+  .sprockets.right{right:0; border-left:1px solid #141414}
+  .leader-core{position:relative; display:flex; flex-direction:column; align-items:center; gap:30px}
+  .leader-top{position:absolute; top:34px; left:0; right:0; text-align:center;
+    font-family:var(--mono); font-size:11px; letter-spacing:.42em; color:#5c5c5c}
+  .leader-btm{position:absolute; bottom:30px; left:0; right:0; display:flex; justify-content:space-between; padding:0 64px;
+    font-family:var(--mono); font-size:10.5px; letter-spacing:.3em; color:#3a3a3a; text-transform:uppercase}
+  .dial{position:relative; width:min(52vw,340px); height:min(52vw,340px); border-radius:50%; border:1px solid #262626}
+  .dial::before,.dial::after{content:""; position:absolute; background:#1f1f1f}
+  .dial::before{left:50%; top:0; bottom:0; width:1px}
+  .dial::after{top:50%; left:0; right:0; height:1px}
+  .hand{position:absolute; inset:0; border-radius:50%;
+    background:conic-gradient(rgba(244,244,242,.14) 0deg, transparent 92deg);
+    animation:sweepHand .8s linear infinite}
+  #count{position:relative; display:flex; align-items:center; justify-content:center; height:100%;
+    font-family:var(--disp); font-size:min(30vw,190px); font-weight:500; line-height:1; color:var(--ink)}
+  #count span{display:inline-block; animation:countPop .8s cubic-bezier(.2,.8,.2,1)}
+  #cta{opacity:0; transition:opacity .5s ease; display:flex; flex-direction:column; align-items:center; gap:12px}
+  #cta.show{opacity:1}
+  #cta .main{font-family:var(--disp); font-size:clamp(24px,4vw,36px); font-weight:500; letter-spacing:-.02em;
+    color:var(--ink); animation:pulse 1.6s ease-in-out infinite}
+  #cta .sub{font-family:var(--mono); font-size:11px; letter-spacing:.32em; color:#5c5c5c}
 
-  /* ---------- top bar ---------- */
-  header{position:relative; z-index:5; display:flex; justify-content:space-between; align-items:center;
-    padding:0 5vw; height:0}
-  .toprow{position:relative; display:flex; justify-content:space-between; width:100%;
+  /* ===========================================================
+     RUNTIME HUD
+     =========================================================== */
+  #hud{position:fixed; left:22px; bottom:20px; z-index:70; display:flex; align-items:center; gap:9px;
+    font-family:var(--mono); font-size:11px; letter-spacing:.2em; color:var(--ink-2);
+    opacity:0; transition:opacity .6s ease .2s; pointer-events:none}
+  #hud.show{opacity:1}
+  #hud .rec{width:7px; height:7px; border-radius:50%; background:#e0564a; animation:blink 1.6s steps(1) infinite}
+
+  /* ===========================================================
+     HERO — entrance plays only after the screen lifts (.rolled)
+     =========================================================== */
+  header{position:relative; z-index:5; height:0}
+  .toprow{position:relative; display:flex; justify-content:space-between; align-items:center; width:100%;
     font-family:var(--mono); font-size:11.5px; letter-spacing:.24em; text-transform:uppercase; color:var(--ink-2)}
   .nav{display:flex; gap:26px}
 
-  /* ---------- hero ---------- */
   .hero{position:relative; min-height:100vh; box-sizing:border-box; display:flex; flex-direction:column;
     justify-content:space-between; padding:44px 5vw 52px; overflow:hidden}
   .hero .glow{position:absolute; inset:0; pointer-events:none;
     background:radial-gradient(70% 55% at 50% 38%, rgba(255,255,255,.07), transparent 72%)}
-  .hero .center{position:relative; text-align:center; animation:flick .5s steps(3) infinite}
-  .hero .lede{font-family:var(--mono); font-size:12px; letter-spacing:.4em; color:var(--ink-3);
-    animation:fadeUp .7s cubic-bezier(.2,.8,.2,1) 3.2s both}
+  .hero .center{position:relative; text-align:center}
+  .hero .lede{font-family:var(--mono); font-size:12px; letter-spacing:.4em; color:var(--ink-3)}
   .hero h1{font-family:var(--disp); font-size:clamp(58px,11.6vw,170px); font-weight:500;
-    letter-spacing:-.05em; line-height:.94; color:var(--ink); margin-top:16px;
-    animation:titleUp 1s cubic-bezier(.2,.8,.2,1) 3.35s both}
+    letter-spacing:-.05em; line-height:.94; color:var(--ink); margin-top:16px}
   .hero .roles{display:flex; justify-content:center; flex-wrap:wrap; gap:14px 30px; margin-top:28px;
-    font-family:var(--mono); font-size:12px; letter-spacing:.26em; text-transform:uppercase; color:var(--ink-2);
-    animation:fadeUp .8s cubic-bezier(.2,.8,.2,1) 3.6s both}
+    font-family:var(--mono); font-size:12px; letter-spacing:.26em; text-transform:uppercase; color:var(--ink-2)}
   .hero .roles .slash{color:var(--ink-4)}
   .hero .footrow{position:relative; display:flex; justify-content:space-between; align-items:flex-end; gap:16px;
-    font-family:var(--mono); font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-3);
-    animation:fadeUp .8s cubic-bezier(.2,.8,.2,1) 3.8s both}
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-3)}
   .hero .rec{display:flex; align-items:center; gap:10px}
   .hero .dot{width:7px;height:7px;border-radius:50%;background:var(--ink);animation:blink 1.6s steps(1) infinite}
 
+  .hero .lede,.hero h1,.hero .roles,.hero .footrow,.toprow{opacity:0}
+  body.rolled .toprow{animation:fadeUp .7s cubic-bezier(.2,.8,.2,1) .15s both}
+  body.rolled .hero .lede{animation:fadeUp .7s cubic-bezier(.2,.8,.2,1) .2s both}
+  body.rolled .hero h1{animation:titleUp 1s cubic-bezier(.2,.8,.2,1) .28s both}
+  body.rolled .hero .roles{animation:fadeUp .8s cubic-bezier(.2,.8,.2,1) .5s both}
+  body.rolled .hero .footrow{animation:fadeUp .8s cubic-bezier(.2,.8,.2,1) .62s both}
+
   /* ---------- scenes ---------- */
   .scene{position:relative; padding:64px 5vw 72px; border-top:1px solid var(--line)}
-  .scene .cap{display:flex; justify-content:space-between; align-items:flex-end; gap:16px; margin-bottom:22px;
-    animation:fadeUp .8s cubic-bezier(.2,.8,.2,1) both}
+  .scene .cap{display:flex; justify-content:space-between; align-items:flex-end; gap:16px; margin-bottom:22px}
   .scene .cap .l{display:flex; align-items:baseline; gap:22px; flex-wrap:wrap}
   .scene .no{font-family:var(--mono); font-size:12px; letter-spacing:.3em; color:var(--ink-3)}
   .scene .name{font-family:var(--disp); font-size:clamp(28px,4.6vw,66px); font-weight:500; letter-spacing:-.04em; color:var(--ink); line-height:1}
@@ -129,12 +165,10 @@
     background:repeating-linear-gradient(115deg,#141414 0 12px,#0f0f0f 12px 24px); text-align:center; padding:0 20px}
   .screen iframe{position:absolute; top:0; left:0; width:400%; height:400%; transform:scale(.25);
     transform-origin:top left; border:0; pointer-events:none}
-  .vig{position:absolute; inset:0; pointer-events:none;
-    background:radial-gradient(75% 60% at 50% 45%, transparent 40%, rgba(0,0,0,.55) 100%)}
+  .vig{position:absolute; inset:0; pointer-events:none; background:radial-gradient(75% 60% at 50% 45%, transparent 40%, rgba(0,0,0,.55) 100%)}
   .sweep{position:absolute; left:0; right:0; top:0; height:36%; pointer-events:none;
     background:linear-gradient(rgba(255,255,255,.055), transparent); animation:sweep 7s linear infinite}
-  .bar{position:absolute; left:0; right:0; height:74px; background:#000; pointer-events:none;
-    transition:transform .7s cubic-bezier(.7,0,.2,1)}
+  .bar{position:absolute; left:0; right:0; height:74px; background:#000; pointer-events:none; transition:transform .7s cubic-bezier(.7,0,.2,1)}
   .bar.top{top:0; transform-origin:top}
   .bar.bot{bottom:0; transform-origin:bottom}
   @media (hover:hover) and (pointer:fine){
@@ -146,8 +180,7 @@
   .play{position:absolute; left:26px; bottom:24px; z-index:3; display:flex; align-items:center; gap:14px;
     font-family:var(--mono); font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:#e8e8e6}
   .play .tri{width:0;height:0;border-left:11px solid #e8e8e6;border-top:7px solid transparent;border-bottom:7px solid transparent}
-  .stack{position:absolute; right:26px; bottom:24px; z-index:3;
-    font-family:var(--mono); font-size:11px; letter-spacing:.22em; color:var(--ink-2)}
+  .stack{position:absolute; right:26px; bottom:24px; z-index:3; font-family:var(--mono); font-size:11px; letter-spacing:.22em; color:var(--ink-2)}
 
   /* ---------- credits ---------- */
   .credits{position:relative; padding:100px 5vw 90px; border-top:1px solid var(--line); overflow:hidden}
@@ -173,47 +206,55 @@
     .roll .k,.roll .v{text-align:center}
     .roll .k{color:var(--ink-3); margin-top:14px}
     .hero .footrow{flex-direction:column; align-items:flex-start; gap:14px}
+    .leader-btm{padding:0 22px}
     .play{left:16px; bottom:16px}
     .stack{display:none}
   }
 
-  /* ---------- reduced motion ---------- */
   @media (prefers-reduced-motion:reduce){
-    *{animation-duration:.001s !important; animation-delay:0s !important; transition-duration:.05s !important}
-    #intro{display:none}
+    *{animation-duration:.001s !important; animation-delay:0s !important}
     .kreveal{opacity:1; transform:none}
     html{scroll-behavior:auto}
+    .hero .lede,.hero h1,.hero .roles,.hero .footrow,.toprow{opacity:1}
   }
 </style>
 </head>
-<body>
+<body class="locked">
 
-<div id="cursor" aria-hidden="true"></div>
+<div id="reticle" aria-hidden="true"><i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i><i class="dot"></i></div>
 
-<!-- INTRO TITLE CARD -->
-<div id="intro" aria-hidden="true">
-  <div class="kicker">A KAMARI FLANAGAN PRODUCTION</div>
-  <div class="big">THREE SITES</div>
-  <div class="rule"></div>
-  <div class="kicker">NOW SHOWING · 2026</div>
+<!-- ===== LEADER / BOOT ===== -->
+<div id="leader" role="button" tabindex="0" aria-label="Click anywhere to roll the film and enter the site">
+  <div class="sprockets left" aria-hidden="true"></div>
+  <div class="sprockets right" aria-hidden="true"></div>
+  <div class="leader-top">A KAMARI FLANAGAN PRODUCTION</div>
+  <div class="leader-core">
+    <div class="dial"><div class="hand"></div><div id="count"><span>4</span></div></div>
+    <div id="cta">
+      <div class="main">Click anywhere to roll the film</div>
+      <div class="sub">↑ THE SCREEN LIFTS</div>
+    </div>
+  </div>
+  <div class="leader-btm"><span>Picture start</span><span>Reel 01 · 2026</span><span>Sound ✕</span></div>
+  <div class="grain"></div>
 </div>
 
-<!-- HERO -->
+<!-- ===== RUNTIME HUD ===== -->
+<div id="hud" aria-hidden="true"><span class="rec"></span><span>RUNTIME</span><span id="clock">00:00:00</span></div>
+
+<!-- ===== HERO ===== -->
 <section class="hero" id="top">
   <div class="grain"></div>
   <div class="glow"></div>
-
   <header>
     <div class="toprow">
-      <span style="color:var(--ink)" data-mag>Kamari Flanagan</span>
+      <span style="color:var(--ink)">Kamari Flanagan</span>
       <nav class="nav" aria-label="Primary">
-        <a href="#scenes" data-mag>Scenes</a>
-        <a href="#credits" data-mag>Credits</a>
-        <a href="mailto:officialkamariflanagan@gmail.com" data-mag>Booking</a>
+        <a href="#scene1">Scenes</a>
+        <a href="#credits">Credits</a>
       </nav>
     </div>
   </header>
-
   <div class="center">
     <div class="lede">A THREE-PART FEATURE · WRITTEN, DESIGNED &amp; BUILT BY</div>
     <h1>KAMARI<br>FLANAGAN</h1>
@@ -223,17 +264,15 @@
       <span>Freelance open</span>
     </div>
   </div>
-
-  <div class="footrow" id="scenes">
+  <div class="footrow">
     <span>Reel 01 — three live sites</span>
     <span class="rec"><span class="dot"></span>Scroll to roll the film</span>
   </div>
 </section>
 
-<!-- SCENES render here -->
 <main id="reel"></main>
 
-<!-- CREDITS -->
+<!-- ===== CREDITS ===== -->
 <section class="credits" id="credits">
   <div class="grain"></div>
   <div class="inner kreveal">
@@ -241,65 +280,45 @@
     <div class="roll">
       <span class="k">Design &amp; build</span><span class="v">Kamari Flanagan</span>
       <span class="k">Certification</span><span class="v"><a href="https://cp.certmetrics.com/amazon/en/public/verify/credential" target="_blank" rel="noopener">AWS Certified Cloud Practitioner · 2026—2029</a></span>
-      <span class="k">In production</span><span class="v">CompTIA Security+</span>
-      <span class="k">Studio</span><span class="v">Invincible Incorporated</span>
+      <span class="k">In production</span><span class="v">Your Next Website</span>
       <span class="k">Now playing</span><span class="v">B.S. Software Engineering · NAU</span>
       <span class="k">On location</span><span class="v">Wildomar, CA / Flagstaff, AZ</span>
     </div>
-    <a class="email" href="mailto:officialkamariflanagan@gmail.com" data-mag>officialkamariflanagan@gmail.com</a>
+    <a class="email" href="mailto:officialkamariflanagan@gmail.com">officialkamariflanagan@gmail.com</a>
     <div class="tail">757-386-5116 · Booking for 2026 · Fin.</div>
     <div class="kit">
-      <a href="Kamari-Flanagan-Resume.pdf" target="_blank" rel="noopener" data-mag>Résumé (PDF)</a>
-      <a href="AWS-Cloud-Practitioner.pdf" target="_blank" rel="noopener" data-mag>AWS Certificate</a>
-      <a href="https://github.com/mariiiflan" target="_blank" rel="noopener" data-mag>GitHub</a>
+      <a href="Kamari-Flanagan-Resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a>
+      <a href="AWS-Cloud-Practitioner.pdf" target="_blank" rel="noopener">AWS Certificate</a>
+      <a href="https://github.com/mariiiflan" target="_blank" rel="noopener">GitHub</a>
     </div>
   </div>
 </section>
 
 <script>
-/* ============================================================
-   SCENES — single source of truth.
-   Add a project = add one object here. Order sets SCENE 01, 02, ...
-   frame:false  -> shows the film-slate placeholder only (no iframe).
-   ============================================================ */
+/* =====================================================================
+   SCENES — single source of truth. Add a project = add one object.
+   frame:false -> film-slate only (no live iframe).
+   ===================================================================== */
 const SCENES = [
-  {
-    name: "invincibleinc.net",
-    href: "https://invincibleinc.net",
-    meta: "Studio site · 226K+ downloads · 2023",
-    stack: "Java · NeoForge · Mixin",
-    frame: true
-  },
-  {
-    name: "I Served Transportation",
-    href: "https://mariiiflan.github.io/I-SERVED-TRANSPORTATION/",
-    meta: "Service site · live · 2026",
-    stack: "HTML · CSS · JS · Pages",
-    frame: true
-  },
-  {
-    name: "AVEIR",
-    href: "https://mariiiflan.github.io/AVEIR-SITE/desktop/",
-    meta: "Brand site · desktop-first · 2026",
-    stack: "Motion · layout · deploy",
-    frame: true
-  }
+  { name:"invincibleinc.net", href:"https://invincibleinc.net", meta:"Studio site · 226K+ downloads · 2023", stack:"Java · NeoForge · Mixin", frame:true },
+  { name:"I Served Transportation", href:"https://mariiiflan.github.io/I-SERVED-TRANSPORTATION/", meta:"Service site · live · 2026", stack:"HTML · CSS · JS · Pages", frame:true },
+  { name:"AVEIR", href:"https://mariiiflan.github.io/AVEIR-SITE/desktop/", meta:"Brand site · desktop-first · 2026", stack:"Motion · layout · deploy", frame:true }
 ];
 
+const isTouch = !window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+const reduce  = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
 /* ---- render scenes ---- */
-(function renderScenes(){
+(function(){
   const reel = document.getElementById('reel');
-  const isTouch = !window.matchMedia('(hover:hover) and (pointer:fine)').matches;
-  SCENES.forEach((s, i) => {
-    const no = String(i + 1).padStart(2, '0');
-    const slateLabel = `SCENE ${no} — ${s.name.toUpperCase()}`;
-    const playLabel = isTouch ? 'OPEN THE SITE' : 'PLAY THE SITE';
-    // iframe mounts only on desktop, only when scrolled into view (data-src)
-    const frameHTML = (s.frame && !isTouch)
-      ? `<iframe data-src="${s.href}" loading="lazy" scrolling="no" tabindex="-1" title="${s.name} preview"></iframe>`
-      : '';
+  SCENES.forEach((s,i)=>{
+    const no = String(i+1).padStart(2,'0');
+    const play = isTouch ? 'OPEN THE SITE' : 'PLAY THE SITE';
+    const frame = (s.frame && !isTouch)
+      ? `<iframe data-src="${s.href}" loading="lazy" scrolling="no" tabindex="-1" title="${s.name} preview"></iframe>` : '';
     const sec = document.createElement('section');
     sec.className = 'scene';
+    if (i===0) sec.id = 'scene1';
     sec.innerHTML = `
       <div class="cap kreveal">
         <div class="l"><span class="no">SCENE ${no}</span><span class="name">${s.name}</span></div>
@@ -307,14 +326,11 @@ const SCENES = [
       </div>
       <a class="panel" href="${s.href}" target="_blank" rel="noopener" aria-label="Open ${s.name} in a new tab">
         <div class="screen">
-          <div class="slate">${slateLabel}</div>
-          ${frameHTML}
-          <div class="vig"></div>
-          <div class="grain"></div>
-          <div class="sweep"></div>
-          <div class="bar top"></div>
-          <div class="bar bot"></div>
-          <div class="play"><span class="tri"></span>${playLabel}</div>
+          <div class="slate">SCENE ${no} — ${s.name.toUpperCase()}</div>
+          ${frame}
+          <div class="vig"></div><div class="grain"></div><div class="sweep"></div>
+          <div class="bar top"></div><div class="bar bot"></div>
+          <div class="play"><span class="tri"></span>${play}</div>
           <div class="stack">${s.stack}</div>
         </div>
       </a>`;
@@ -322,61 +338,78 @@ const SCENES = [
   });
 })();
 
-/* ---- scroll reveal + lazy-mount iframes + auto-roll on touch ---- */
-(function reveals(){
-  const reveal = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); reveal.unobserve(e.target); } });
-  }, { threshold: 0.15 });
-  document.querySelectorAll('.kreveal').forEach(el => reveal.observe(el));
-
-  const isTouch = !window.matchMedia('(hover:hover) and (pointer:fine)').matches;
-  const panels = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      const panel = e.target;
-      const frame = panel.querySelector('iframe[data-src]');
-      if (frame){ frame.src = frame.dataset.src; frame.removeAttribute('data-src'); }
-      if (isTouch) panel.classList.add('rolling'); // retract letterbox bars on mobile
-      panels.unobserve(panel);
-    });
-  }, { threshold: 0.35 });
-  document.querySelectorAll('.panel').forEach(p => panels.observe(p));
+/* ---- reveal on scroll + lazy-mount iframes + auto-roll bars on touch ---- */
+(function(){
+  const rev = new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');rev.unobserve(e.target);}})},{threshold:.15});
+  document.querySelectorAll('.kreveal').forEach(el=>rev.observe(el));
+  const pan = new IntersectionObserver((es)=>{es.forEach(e=>{
+    if(!e.isIntersecting) return;
+    const f=e.target.querySelector('iframe[data-src]'); if(f){f.src=f.dataset.src;f.removeAttribute('data-src');}
+    if(isTouch) e.target.classList.add('rolling');
+    pan.unobserve(e.target);
+  })},{threshold:.35});
+  document.querySelectorAll('.panel').forEach(p=>pan.observe(p));
 })();
 
-/* ---- custom cursor + magnetic links (desktop, non-reduced-motion only) ---- */
-(function cursor(){
-  const fine = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
-  const reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-  if (!fine || reduce) return;
+/* =====================================================================
+   RUNTIME TIMER — counts from page load; shown after the film rolls.
+   ===================================================================== */
+(function(){
+  const t0 = Date.now(), el = document.getElementById('clock');
+  const p = n => String(n).padStart(2,'0');
+  setInterval(()=>{
+    const s = Math.floor((Date.now()-t0)/1000);
+    el.textContent = p(Math.floor(s/3600))+':'+p(Math.floor(s%3600/60))+':'+p(s%60);
+  },1000);
+})();
+
+/* =====================================================================
+   LEADER — countdown 4->1, then arm; click / key lifts the screen.
+   ===================================================================== */
+(function(){
+  const leader = document.getElementById('leader');
+  const count  = document.getElementById('count');
+  const cta    = document.getElementById('cta');
+  const hud    = document.getElementById('hud');
+  let armed = false, lifted = false;
+
+  function arm(){ armed = true; count.style.display='none'; document.querySelector('.dial').style.opacity=.35; cta.classList.add('show'); }
+  function roll(){
+    if(!armed || lifted) return; lifted = true;
+    leader.classList.add('lift');
+    document.body.classList.remove('locked');
+    document.body.classList.add('rolled');
+    hud.classList.add('show');
+    leader.addEventListener('transitionend', ()=>{ leader.remove(); }, {once:true});
+  }
+
+  if (reduce){ arm(); }
+  else {
+    let n = 4;
+    const iv = setInterval(()=>{
+      n--;
+      if (n >= 1){ count.innerHTML = `<span>${n}</span>`; }
+      else { clearInterval(iv); arm(); }
+    }, 800);
+  }
+
+  leader.addEventListener('click', roll);
+  leader.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); roll(); }});
+  leader.focus({preventScroll:true});
+})();
+
+/* =====================================================================
+   RETICLE cursor (desktop, motion-ok). No magnetic links — kept clean.
+   ===================================================================== */
+(function(){
+  if (isTouch || reduce) return;
   document.documentElement.classList.add('cursor-on');
-
-  const cur = document.getElementById('cursor');
-  let tx = 0, ty = 0, cx = 0, cy = 0;
-  window.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
-  (function loop(){
-    cx += (tx - cx) * 0.2; cy += (ty - cy) * 0.2;
-    cur.style.transform = `translate(${cx}px, ${cy}px)`;
-    requestAnimationFrame(loop);
-  })();
-
-  // grow over interactive targets
-  document.querySelectorAll('a, .panel').forEach(el => {
-    el.addEventListener('mouseenter', () => cur.classList.add('big'));
-    el.addEventListener('mouseleave', () => cur.classList.remove('big'));
-  });
-
-  // magnetic pull on tagged links
-  document.querySelectorAll('[data-mag]').forEach(el => {
-    el.style.display = el.style.display || 'inline-block';
-    el.style.transition = 'transform .3s cubic-bezier(.2,.8,.2,1)';
-    el.addEventListener('mousemove', e => {
-      const r = el.getBoundingClientRect();
-      const mx = e.clientX - (r.left + r.width / 2);
-      const my = e.clientY - (r.top + r.height / 2);
-      el.style.transform = `translate(${mx * 0.25}px, ${my * 0.35}px)`;
-    });
-    el.addEventListener('mouseleave', () => { el.style.transform = 'translate(0,0)'; });
-  });
+  const r = document.getElementById('reticle');
+  let tx=0,ty=0,cx=0,cy=0;
+  window.addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY;});
+  (function loop(){ cx+=(tx-cx)*.22; cy+=(ty-cy)*.22; r.style.transform=`translate(${cx}px,${cy}px)`; requestAnimationFrame(loop); })();
+  document.addEventListener('mouseover', e=>{ if(e.target.closest('a,.panel,#leader')) r.classList.add('big'); });
+  document.addEventListener('mouseout',  e=>{ if(e.target.closest('a,.panel,#leader')) r.classList.remove('big'); });
 })();
 </script>
 </body>
